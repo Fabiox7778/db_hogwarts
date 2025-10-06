@@ -9,7 +9,7 @@
     "dev": "cls && nodemon server.js",
     "studio": "npx prisma studio"
   },
-  "keywords": ["CRUD", "API", "SENAI"],
+  "keywords": ["DB", "API", "SENAI"],
   "author": "Fabio Henrique R.  Trevizolli",
   "license": "MIT",
   "dependencies": {
