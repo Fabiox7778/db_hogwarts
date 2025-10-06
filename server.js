@@ -20,6 +20,6 @@ app.get("/", (req, res) => {
 
 
 // Iniciar servidor escutando na porta definida
-app.listen(serverPort, () => {
+app.listen(serverPort, () => { 
     console.log(`🚀 Servidor rodando em http://localhost:${serverPort} 🚀`);
 });
