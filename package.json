@@ -1,7 +1,7 @@
 {
-  "name": "api-prova",
+  "name": "db_hogwarts",
   "version": "1.0.0",
-  "description": "Desenvolvendo API de CRUD completo com Postman",
+  "description": "Atividdade com banco harry potter",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "dev": "cls && nodemon server.js",
     "studio": "npx prisma studio"
   },
-  "keywords": ["DB", "API", "SENAI"],
+  "keywords": ["DB", "API", "SENAI", "Prisma"],
   "author": "Fabio Henrique R.  Trevizolli",
   "license": "MIT",
   "dependencies": {
