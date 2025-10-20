@@ -25,3 +25,30 @@ export const listarTodos = async (req, res) => {
     });
   }
 }
+
+export const listarUm = async (req, res) => {
+    try {
+        const { id } = parsetInt(req.params.id);
+        const bruxo = await bruxoModel.encontreUm(id);
+
+        if(!bruxo) {
+            res.status(404).json({
+                erro:'Bruxo não encontrado.',
+                mensagem: `verifique o id do bruxo.`,
+                id: id
+            });
+        }
+
+        res.status(200).json({
+            mensagem: "Bruxo encontrado com sucesso.",
+            bruxo
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            error: "Erro interno do servidor.",
+            details: error.message,
+            status: 500
+        });
+    }
+}

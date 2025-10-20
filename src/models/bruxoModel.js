@@ -1,8 +1,14 @@
 import { PrismaClient } from "@prisma/client";
-const prisma = newClient();
+const prisma = new PrismaClient();
 
 export const encontreTodos = async () => {
   return await prisma.bruxo.findMany({
-    orderBy: { nome: 'asc' }
+    orderBy: { name: 'asc' }
 });
+}
+
+export const encontreUm = async (id) => {
+  return await prisma.bruxo.findUnique({
+    where: { id: Number(id) }
+  });
 }
