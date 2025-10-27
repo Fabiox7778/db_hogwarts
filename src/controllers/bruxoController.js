@@ -28,7 +28,7 @@ export const listarTodos = async (req, res) => {
 
 export const listarUm = async (req, res) => {
     try {
-        const { id } = parsetInt(req.params.id);
+        const id = req.params.id;
         const bruxo = await bruxoModel.encontreUm(id);
 
         if(!bruxo) {
@@ -55,12 +55,12 @@ export const listarUm = async (req, res) => {
 
 export const criar = async (req, res) => {
   try {
-    const { nome, casa, patrono, varinha, anoMatricula } = req.body;
+    const { name, casa, patrono, varinha, anoMatricula } = req.body;
 
-    const dado = { nome, casa, patrono, varinha, anoMatricula }
+    const dado = { name, casa, patrono, varinha, anoMatricula }
 
     // Validação
-    const camposObrigatorios = ['nome', 'casa', 'varinha', 'anoMatricula'];
+    const camposObrigatorios = ['name', 'casa', 'varinha', 'anoMatricula'];
     
     const faltando = camposObrigatorios.filter(campo => !dado[campo]);
 
@@ -80,7 +80,7 @@ export const criar = async (req, res) => {
     }
 
     // Eu crio o bruxo usando o Model
-    const novoBruxo = await BruxoModel.criar(req.body)
+    const novoBruxo = await bruxoModel.criar(req.body)
 
     res.status(201).json({
       mensagem: 'Bruxo criado com sucesso!',
@@ -100,7 +100,7 @@ export const deletar = async (req, res) => {
     const id = parseInt(req.params.id);
 
     //Verificar se o id existe, ou seja se tem bruxo com esse id
-    const bruxoExiste = await BruxoModel.encontreUm(id);
+    const bruxoExiste = await bruxoModel.encontreUm(id);
 
     if (!bruxoExiste) {
       return res.status(404).json({
@@ -109,7 +109,7 @@ export const deletar = async (req, res) => {
       })
     }
 
-    await BruxoModel.deletar(id);
+    await bruxoModel.deletar(id);
 
     res.status(200).json({
       mensagem: 'Bruxo apagado com sucesso!',
@@ -119,6 +119,45 @@ export const deletar = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       erro: 'Erro ao apagar bruxo!',
+      detalhes: error.message
+    })
+  }
+}
+
+export const atualizar = async (req, res) => { 
+  try {
+    const id = parseInt(req.params.id);
+    const dado = req.body;
+
+    const bruxoExiste = await bruxoModel.encontreUm(id);
+
+    if (!bruxoExiste) {
+      return res.status(404).json({
+        erro: 'Bruxo com esse id não foi encontrado',
+        id: id
+      })
+    }
+
+    if (dado.casa) {
+      const casasValidas = ['Grifinória', 'Sonserina', 'Corvinal', 'Lufa-Lufa'];
+      if (!casasValidas.includes(dado.casa)) {
+        return res.status(400).json({
+          erro: 'Casa inválida! O Chapéu Seletor só reconhece as 4 casas',
+          casasValidas
+        });
+      }
+    } 
+
+    const bruxoAtualizado = await bruxoModel.atualizar(id, dado);
+
+    res.status(200).json({
+      mensagem: 'Bruxo atualizado com sucesso!',
+      bruxo: bruxoAtualizado
+    })
+
+  } catch (error) {
+    res.status(500).json({
+      erro: 'Erro ao atualizar bruxo',
       detalhes: error.message
     })
   }
